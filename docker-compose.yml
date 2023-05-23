@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    container_name: 'rabbit-tt'
+    image: rabbitmq:3-management
+    hostname: 'rabbitmq'
+    ports:
+      - "5671:5672"
+      - "15671:15672"
+    networks:
+      - my-network  
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin 
+  postgres:
+    container_name: 'postgres-tt'
+    hostname: database
+    image: postgres
+    ports: ["5431:5432"]
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=my_db
+    networks:
+      - my-network
+ 
+networks:
+  my-network:
+    name: existing_docker_network
+    driver: bridge
+volumes:
+  rabbitmq_data:
+    driver: local
+
