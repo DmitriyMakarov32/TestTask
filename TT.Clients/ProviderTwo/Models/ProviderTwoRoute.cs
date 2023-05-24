@@ -4,12 +4,12 @@ public class ProviderTwoRoute
 {
     // Mandatory
     // Start point of route
-    public ProviderTwoPoint Departure { get; set; }
+    public ProviderTwoPoint Departure { get; set; } = null!;
 
 
     // Mandatory
     // End point of route
-    public ProviderTwoPoint Arrival { get; set; }
+    public ProviderTwoPoint Arrival { get; set; } = null!;
 
     // Mandatory
     // Price of route

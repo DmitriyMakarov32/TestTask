@@ -4,7 +4,7 @@ public class SearchResponse
 {
     // Mandatory
     // Array of routes
-    public Route[] Routes { get; set; }
+    public Route[] Routes { get; set; } = null!;
 
     // Mandatory
     // The cheapest route

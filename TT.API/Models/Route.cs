@@ -8,11 +8,11 @@ public class Route
 
     // Mandatory
     // Start point of route
-    public string Origin { get; set; }
+    public string Origin { get; set; } = null!;
 
     // Mandatory
     // End point of route
-    public string Destination { get; set; }
+    public string Destination { get; set; } = null!;
 
     // Mandatory
     // Start date of route

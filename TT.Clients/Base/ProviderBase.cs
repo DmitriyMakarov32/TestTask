@@ -4,7 +4,7 @@ using TT.Clients.Base.Models.Request;
 
 namespace TT.Clients.Base;
 
-public abstract class ProviderBase<TReq, TRes>
+public abstract class ProviderBase<TReq, TRes> where TRes : class
 {
     protected readonly IBaseApi<TReq, TRes> HttpClient;
 
@@ -20,9 +20,9 @@ public abstract class ProviderBase<TReq, TRes>
         return responseFromClient.IsSuccessStatusCode;
     }
 
-    protected async Task<TRes?> BaseSearchAsync<TRes>(Func<TReq, Task<ApiResponse<TRes>>> method,
+    protected async Task<TRes?> BaseSearchAsync(Func<TReq, Task<ApiResponse<TRes>>> method,
         TReq request,
-        CancellationToken cancellationToken) where TRes : class
+        CancellationToken cancellationToken)
     {
         var responseFromClient = await method(request);
         //TODO: Logs metrics
@@ -31,5 +31,5 @@ public abstract class ProviderBase<TReq, TRes>
 
 
     public int ProviderId { get; }
-    public abstract Task<(IReadOnlyCollection<Route> Routes, int ProviderId)> SearchAsync(ClientSearchRequest request, CancellationToken cancellationToken);
+    public abstract Task<(Route[] Routes, int ProviderId)> SearchAsync(ClientSearchRequest request, CancellationToken cancellationToken);
 }

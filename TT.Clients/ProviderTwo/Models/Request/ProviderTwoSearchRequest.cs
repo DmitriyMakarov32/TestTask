@@ -4,11 +4,11 @@ public class ProviderTwoSearchRequest
 {
     // Mandatory
     // Start point of route, e.g. Moscow
-    public string Departure { get; set; }
+    public string Departure { get; set; } = null!;
 
     // Mandatory
     // End point of route, e.g. Sochi
-    public string Arrival { get; set; }
+    public string Arrival { get; set; } = null!;
 
     // Mandatory
     // Start date of route

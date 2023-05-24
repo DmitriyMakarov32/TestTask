@@ -4,11 +4,11 @@ public class SearchRequest
 {
     // Mandatory
     // Start point of route, e.g. Moscow
-    public string Origin { get; set; }
+    public string Origin { get; set; } = null!;
 
     // Mandatory
     // End point of route, e.g. Sochi
-    public string Destination { get; set; }
+    public string Destination { get; set; } = null!;
 
     // Mandatory
     // Start date of route

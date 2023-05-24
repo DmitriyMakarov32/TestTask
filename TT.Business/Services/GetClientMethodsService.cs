@@ -30,16 +30,21 @@ public class GetClientMethodsService : IGetClientMethodService
         if (query == null)
             return Array.Empty<ContextRequest>();
 
+        if (query.Search.Query.Data.Filters?.OnlyCached is true)
+        {
+            query.Search.SearchState = SearchStateEnum.Completed;
+            await _dbContext.SaveChangesAsync(args.cancellationToken);
+            return Array.Empty<ContextRequest>();
+        }
+
         query.Search.SearchState = SearchStateEnum.Running;
         await _dbContext.SaveChangesAsync(args.cancellationToken);
 
-        return _searchClients.Select(x => new ContextRequest
-        {
-            SearchEvent = args.searchEvent,
-            SearchClient = x,
-            Request = query.Adapt<ClientSearchRequest>(),
-            CancellationToken = args.cancellationToken
-        });
+        return _searchClients.Select(searchClient =>
+            new ContextRequest(args.searchEvent,
+                searchClient,
+                query.Data.Adapt<ClientSearchRequest>(),
+                args.cancellationToken));
 
     }
 }

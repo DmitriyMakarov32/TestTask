@@ -8,10 +8,10 @@ public class TestTaskDbContext : DbContext
     public TestTaskDbContext(DbContextOptions<TestTaskDbContext> options) : base(options)
     {}
 
-    public DbSet<Search> Searches { get; set; }
-    public DbSet<Query> Queries { get; set; }
-    public DbSet<SearchResult> SearchResults { get; set; }
-    public DbSet<Route> Routes { get; set; }
+    public DbSet<Search> Searches => Set<Search>();
+    public DbSet<Query> Queries => Set<Query>();
+    public DbSet<SearchResult> SearchResults => Set<SearchResult>();
+    public DbSet<Route> Routes => Set<Route>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -5,6 +5,6 @@ namespace TT.Clients.Base;
 
 public interface ISearchClient
 {
-    Task<(IReadOnlyCollection<Route> Routes, int ProviderId)> SearchAsync(ClientSearchRequest request, CancellationToken cancellationToken);
+    Task<(Route[] Routes, int ProviderId)> SearchAsync(ClientSearchRequest request, CancellationToken cancellationToken);
     Task<bool> IsAvailableAsync(CancellationToken cancellationToken);
 }

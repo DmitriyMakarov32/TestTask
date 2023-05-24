@@ -24,6 +24,44 @@ services:
       - POSTGRES_DB=my_db
     networks:
       - my-network
+  ttservice:
+    build:
+      context: .
+      dockerfile: ./TT.Service/Dockerfile
+    image: "tt-service-compose"
+    container_name: tt-service-compose-tt
+    hostname: 'service'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+    ports:
+      - '6001:80'
+    depends_on:
+      - postgres
+      - rabbitmq
+    networks:
+      - my-network 
+  ttproviderone:
+    build:
+      context: .
+      dockerfile: ./TT.ProviderOne/Dockerfile
+    image: "tt-providerone-compose"
+    container_name: tt-providerone-compose-tt
+    hostname: 'providerone'
+    ports:
+      - '6002:80'
+    networks:
+      - my-network 
+  ttprovidertwo:
+    build:
+      context: .
+      dockerfile: ./TT.ProviderTwo/Dockerfile
+    image: "tt-providertwo-compose"
+    container_name: tt-providertwo-compose-tt
+    hostname: 'providertwo'
+    ports:
+      - '6003:80'
+    networks:
+      - my-network 
  
 networks:
   my-network:

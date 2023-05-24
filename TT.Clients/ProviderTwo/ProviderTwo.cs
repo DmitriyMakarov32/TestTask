@@ -17,7 +17,7 @@ public class ProviderTwo : ProviderBase<ProviderTwoSearchRequest, ProviderTwoSea
     {
     }
 
-    public override async Task<(IReadOnlyCollection<Route> Routes, int ProviderId)> SearchAsync(ClientSearchRequest request, CancellationToken cancellationToken)
+    public override async Task<(Route[] Routes, int ProviderId)> SearchAsync(ClientSearchRequest request, CancellationToken cancellationToken)
     {
         var responseFromClient = await BaseSearchAsync(HttpClient.SearchAsync, request.Adapt<ProviderTwoSearchRequest>(), cancellationToken);
 

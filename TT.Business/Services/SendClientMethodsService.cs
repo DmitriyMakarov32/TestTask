@@ -17,11 +17,6 @@ public class SendClientMethodsService : ISendClientMethodsService
     {
         var result = await contextRequest.SearchClient.SearchAsync(contextRequest.Request, contextRequest.CancellationToken);
 
-        return new SearchResult
-        {
-            Routes = result.Routes,
-            ProviderId = result.ProviderId,
-            ContextRequest = contextRequest
-        };
+        return (contextRequest, result).Adapt<SearchResult>();
     }
 }

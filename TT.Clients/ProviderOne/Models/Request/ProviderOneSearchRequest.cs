@@ -4,11 +4,11 @@ public class ProviderOneSearchRequest
 {
     // Mandatory
     // Start point of route, e.g. Moscow
-    public string From { get; set; }
+    public string From { get; set; } = null!;
 
     // Mandatory
     // End point of route, e.g. Sochi
-    public string To { get; set; }
+    public string To { get; set; } = null!;
 
     // Mandatory
     // Start date of route

@@ -7,6 +7,7 @@ public class Search
 {
     public Search()
     {
+        Id = Guid.NewGuid();
     }
 
     public Search(SearchRequest request)
@@ -21,6 +22,6 @@ public class Search
     }
     public Guid Id { get; set; }
     public SearchStateEnum SearchState { get; set; }
-    public ICollection<SearchResult> SearchResults { get; set; }
-    public Query Query { get; set; }
+    public ICollection<SearchResult> SearchResults { get; set; } = null!;
+    public Query Query { get; set; } = null!;
 }

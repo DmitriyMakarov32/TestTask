@@ -2,12 +2,13 @@ using Mapster;
 using TT.Business;
 using TT.Business.Mapping;
 using TT.Clients;
+using TT.Clients.Base;
 using TT.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 TypeAdapterConfig.GlobalSettings.Scan(typeof(MappingConfig).Assembly,
-    typeof(TT.Clients.ProviderOne.Mapping.MappingConfig).Assembly);
+    typeof(ProviderBase<,>).Assembly);
 builder.Services.AddControllers();
 builder.Services.AddClients(builder.Configuration);
 builder.Services.AddData(builder.Configuration);

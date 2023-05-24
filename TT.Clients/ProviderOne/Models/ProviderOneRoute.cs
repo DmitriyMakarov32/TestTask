@@ -4,11 +4,11 @@ public class ProviderOneRoute
 {
     // Mandatory
     // Start point of route
-    public string From { get; set; }
+    public string From { get; set; } = null!;
 
     // Mandatory
     // End point of route
-    public string To { get; set; }
+    public string To { get; set; } = null!;
 
     // Mandatory
     // Start date of route

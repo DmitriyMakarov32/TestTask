@@ -4,11 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using TT.Business.Events;
 using TT.Business.Interfaces;
 using TT.Business.Models;
-using TT.Clients.Base;
 using TT.Data.DbContexts;
 using TT.Data.Entities;
-using TT.Data.Enum;
-using Route = TT.Business.Models.Route;
+using TT.Shared.Extensions;
 using SearchRequest = TT.Data.Models.Query.SearchRequest;
 
 namespace TT.Business.Services;
@@ -36,42 +34,27 @@ public class SearchService : ISearchService
     public async Task<SearchResponse> GetSearchAsync(Guid searchId, CancellationToken cancellationToken)
     {
         var search = await _dbContext.Searches
-            .Include(x => x.Query)
             .Include(x => x.SearchResults)
-            .ThenInclude(x => x.Routes)
+            .Include(x => x.Query)
             .FirstOrDefaultAsync(x => x.Id == searchId, cancellationToken);
 
         if (search is null)
         {
             throw new KeyNotFoundException($"Search with key {searchId} not found");
         }
-
-        Data.Entities.Route[] routes;
-
-        if (search.Query.Data.Filters?.OnlyCached is true)
-        {
-            routes = await _dbContext.Routes
-                .Where(x => x.TimeLimit > DateTime.UtcNow)
-                .ToArrayAsync(cancellationToken);
-        }
-        else
-        {
-            routes = search.SearchResults
-                .Select(x => x.Routes)
-                .SelectMany(x => x)
-                .ToArray();
-        }
-
-
-        var result = new SearchResponse
-        {
-            Routes = routes.Adapt<Route[]>(),
-            MaxPrice = routes.Max(x => x.Price),
-            MinPrice = routes.Min(x => x.Price),
-            SearchState = search.SearchState,
-            MaxMinutesRoute = (int)routes.Max(x => x.DestinationDateTime - x.OriginDateTime).TotalMinutes,
-            MinMinutesRoute = (int)routes.Min(x => x.DestinationDateTime - x.OriginDateTime).TotalMinutes
-        };
-        return result;
+        
+        var routes = await _dbContext.Routes.Include(x => x.SearchResult)
+            .WhereIf(search.Query.Data.Filters?.OnlyCached is null or false,
+                x => search.SearchResults.Select(x => x.Id).Contains(x.SearchResultId))
+            .WhereIf(search.Query.Data.Filters?.MaxPrice is not null,
+                x => x.Price <= search.Query.Data.Filters!.MaxPrice)
+            .WhereIf(search.Query.Data.Filters?.DestinationDateTime is not null,
+                x => x.DestinationDateTime <= search.Query.Data.Filters!.DestinationDateTime)
+            .WhereIf(search.Query.Data.Filters?.MinTimeLimit is not null,
+                x => x.TimeLimit <= search.Query.Data.Filters!.MinTimeLimit)
+            .Where(x => x.TimeLimit > DateTime.UtcNow)
+            .ToArrayAsync(cancellationToken);
+        
+        return (routes, search).Adapt<SearchResponse>();
     }
 }

@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TT.API", "TT.API\TT.API.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TT.ProviderOne", "TT.ProviderOne\TT.ProviderOne.csproj", "{52F8E25E-FF42-4DC4-8BF2-C9FFB82545CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TT.ProwiderTwo", "TT.ProwiderTwo\TT.ProwiderTwo.csproj", "{A811793E-4905-4EED-A799-10335D598BB5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TT.ProviderTwo", "TT.ProviderTwo\TT.ProviderTwo.csproj", "{A811793E-4905-4EED-A799-10335D598BB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

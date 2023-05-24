@@ -26,5 +26,7 @@ public sealed class MappingConfig : IRegister
             .Map(dest => dest.DestinationDateTime, source => source.DateTo)
             .Map(dest => dest.Price, source => source.Price)
             .Map(dest => dest.TimeLimit, source => source.TimeLimit);
+
+
     }
 }

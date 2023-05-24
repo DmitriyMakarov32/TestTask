@@ -12,7 +12,7 @@ public class TplHelper<TIn, TOut>
 			{
 				var firstStep = _steps[0].Block as ITargetBlock<TIn>;
 				firstStep!.Post(input);
-				firstStep.Complete();
+				firstStep!.Complete();
 
 				var lastStep = _steps.Last();
 				await lastStep.Block.Completion;
