@@ -1,9 +1,13 @@
 using Mapster;
+using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
 using TT.Business;
 using TT.Business.Mapping;
 using TT.Clients;
 using TT.Clients.Base;
 using TT.Data;
+using TT.Shared.Extensions;
+using TT.Shared.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +18,14 @@ builder.Services.AddClients(builder.Configuration);
 builder.Services.AddData(builder.Configuration);
 builder.Services.AddBusiness(builder.Configuration);
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("postgresConnection"))
+    .AddRabbitMQ(new Uri(builder.Configuration
+        .GetSection("RabbitSettings")
+        .Get<RabbitSettings>().GetConnectionString()));
+
+
 
 var app = builder.Build();
 

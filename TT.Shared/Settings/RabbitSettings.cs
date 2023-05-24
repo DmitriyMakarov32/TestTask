@@ -1,4 +1,4 @@
-namespace TT.Business.Settings;
+namespace TT.Shared.Settings;
 
 public record RabbitSettings
 {

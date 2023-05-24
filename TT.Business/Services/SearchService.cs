@@ -52,9 +52,12 @@ public class SearchService : ISearchService
                 x => x.DestinationDateTime <= search.Query.Data.Filters!.DestinationDateTime)
             .WhereIf(search.Query.Data.Filters?.MinTimeLimit is not null,
                 x => x.TimeLimit <= search.Query.Data.Filters!.MinTimeLimit)
+            .Where(x => x.Origin == search.Query.Data.Origin)
+            .Where(x => x.Destination == search.Query.Data.Destination)
+            .Where(x => x.OriginDateTime >= search.Query.Data.OriginDateTime)
             .Where(x => x.TimeLimit > DateTime.UtcNow)
             .ToArrayAsync(cancellationToken);
-        
+
         return (routes, search).Adapt<SearchResponse>();
     }
 }

@@ -32,12 +32,12 @@ public sealed class MappingConfig : IRegister
 
         config.NewConfig<(Route[] routes, Search search), SearchResponse>()
             .Map(dest => dest.Routes, source => source.routes)
-            .Map(dest => dest.MaxPrice, source => source.routes.Max(x => x.Price))
-            .Map(dest => dest.MinPrice, source => source.routes.Min(x => x.Price))
+            .Map(dest => dest.MaxPrice, source => source.routes.Any() ? source.routes.Max(x => x.Price) : 0)
+            .Map(dest => dest.MinPrice, source => source.routes.Any() ? source.routes.Min(x => x.Price) : 0)
             .Map(dest => dest.MaxMinutesRoute,
-                source => (int)source.routes.Max(x => x.DestinationDateTime - x.OriginDateTime).TotalMinutes)
+                source => source.routes.Any() ?  (int)source.routes.Max(x => x.DestinationDateTime - x.OriginDateTime).TotalMinutes : 0)
             .Map(dest => dest.MinMinutesRoute,
-                source => (int)source.routes.Min(x => x.DestinationDateTime - x.OriginDateTime).TotalMinutes)
+                source => source.routes.Any() ? (int)source.routes.Min(x => x.DestinationDateTime - x.OriginDateTime).TotalMinutes : 0)
             .Map(dest => dest.SearchState, source => source.search.SearchState);
 
         config.NewConfig<SearchResult, Data.Entities.SearchResult>()

@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TT.Business.Interfaces;
 using TT.Business.Services;
 using TT.Business.Consumers;
-using TT.Business.Settings;
+using TT.Shared.Settings;
 
 namespace TT.Business;
 
